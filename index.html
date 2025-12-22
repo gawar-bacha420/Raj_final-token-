@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E2e Messenger Loader - Chrome Extension</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      color: #1a73e8;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    .version {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    .description {
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+    .steps {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    .step {
+      display: flex;
+      margin-bottom: 15px;
+      align-items: flex-start;
+    }
+    .step:last-child {
+      margin-bottom: 0;
+    }
+    .step-number {
+      background: #1a73e8;
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-right: 15px;
+    }
+    .step-text {
+      color: #333;
+      line-height: 1.6;
+      padding-top: 3px;
+    }
+    .step-text code {
+      background: #e8f0fe;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      color: #1a73e8;
+    }
+    .files {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .files h3 {
+      color: #856404;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    .file-list {
+      list-style: none;
+    }
+    .file-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(133, 100, 4, 0.2);
+      color: #333;
+    }
+    .file-list li:last-child {
+      border-bottom: none;
+    }
+    .file-list a {
+      color: #1a73e8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .file-list a:hover {
+      text-decoration: underline;
+    }
+    .warning {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 12px;
+      padding: 20px;
+      color: #721c24;
+      line-height: 1.6;
+    }
+    .preview {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .preview img {
+      max-width: 128px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .preview p {
+      color: #666;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>E2e Messenger Loader</h1>
+    <p class="version">Version 1.5 - Chrome Extension</p>
+    
+    <p class="description">
+      This is a Chrome browser extension for Facebook Messenger. It allows you to automate message sending with customizable speed and message content.
+    </p>
+
+    <h2>Installation Instructions</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-text">Download all the extension files from the links below to a folder on your computer.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-text">Open Chrome and navigate to <code>chrome://extensions/</code></div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-text">Enable <strong>Developer mode</strong> by clicking the toggle in the top right corner.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-text">Click <strong>Load unpacked</strong> and select the folder containing the extension files.</div>
+      </div>
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-text">The extension will now appear in your Chrome toolbar!</div>
+      </div>
+    </div>
+
+    <div class="files">
+      <h3>Extension Files (Download All)</h3>
+      <ul class="file-list">
+        <li><a href="/manifest.json" download>manifest.json</a> - Extension configuration</li>
+        <li><a href="/popup.html" download>popup.html</a> - Extension popup interface</li>
+        <li><a href="/popup.js" download>popup.js</a> - Popup functionality</li>
+        <li><a href="/content_script.js" download>content_script.js</a> - Page interaction script</li>
+        <li><a href="/icon9.png" download>icon9.png</a> - Extension icon</li>
+      </ul>
+    </div>
+
+    <div class="warning">
+      <strong>Note:</strong> This extension is designed to work specifically with Facebook Messenger (facebook.com/messages). Make sure you're on a Messenger conversation page before using the extension.
+    </div>
+
+    <div class="preview">
+      <img src="/icon9.png" alt="Extension Icon">
+      <p>Extension Icon Preview</p>
+    </div>
+  </div>
+</body>
+</html>
