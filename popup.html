@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E2e Messenger Loader</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      width: 450px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    body.color-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    body.color-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    body.color-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    body.color-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    body.color-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    body.color-6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+    body.color-7 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+    body.color-8 { background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); }
+    body.color-9 { background: linear-gradient(135deg, #2e2e78 0%, #662d91 100%); }
+    body.color-10 { background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%); }
+
+    header {
+      text-align: center;
+      padding: 20px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h3 {
+      color: white;
+      margin: 0;
+      font-weight: 700;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h3 .material-icons {
+      font-size: 28px;
+      color: white;
+    }
+
+    .container {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      color: white;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    label .material-icons {
+      font-size: 20px;
+    }
+
+    .input-box {
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      padding: 12px 15px;
+      width: 100%;
+      font-size: 14px;
+      color: #333;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .input-box:focus {
+      outline: none;
+      background: white;
+      border-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .input-box::placeholder {
+      color: #999;
+    }
+
+    textarea.input-box {
+      resize: vertical;
+      min-height: 100px;
+      font-family: 'Courier New', monospace;
+      line-height: 1.5;
+    }
+
+    input[type="number"].input-box {
+      font-weight: 600;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    input[type="submit"] {
+      flex: 1;
+      min-width: 150px;
+      padding: 14px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 0;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+      color: #333;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      text-transform: uppercase;
+    }
+
+    input[type="submit"]:hover {
+      background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    input[type="submit"]:active {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    input[type="submit"]:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .stop-btn {
+      flex: 1;
+      min-width: 150px;
+      padding: 14px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 0;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+      text-transform: uppercase;
+    }
+
+    .stop-btn:hover {
+      background: linear-gradient(135deg, #ff7675 0%, #ff6b6b 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    }
+
+    .stop-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .status-message {
+      padding: 12px 15px;
+      margin-top: 15px;
+      border-radius: 10px;
+      text-align: center;
+      display: none;
+      font-weight: 600;
+      font-size: 13px;
+      animation: slideIn 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .status-message.success {
+      background: rgba(52, 211, 153, 0.9);
+      color: white;
+      display: block;
+    }
+
+    .status-message.error {
+      background: rgba(245, 101, 101, 0.9);
+      color: white;
+      display: block;
+    }
+
+    .status-message.info {
+      background: rgba(96, 165, 250, 0.9);
+      color: white;
+      display: block;
+    }
+
+    .warning-box {
+      background: rgba(255, 193, 7, 0.15);
+      border: 2px solid rgba(255, 193, 7, 0.3);
+      border-radius: 10px;
+      padding: 12px 15px;
+      color: white;
+      font-size: 13px;
+      margin-bottom: 15px;
+      display: none;
+      backdrop-filter: blur(10px);
+    }
+
+    .warning-box.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    .warning-box strong {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+
+    .warning-box .material-icons {
+      font-size: 18px;
+    }
+
+    .controls-section {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    .controls-section label {
+      margin-bottom: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    footer .material-icons {
+      font-size: 14px;
+    }
+
+    .author {
+      font-weight: 600;
+    }
+
+    .whatsapp-link {
+      text-align: center;
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .whatsapp-link p {
+      color: white;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .whatsapp-link a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      color: white;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+    }
+
+    .whatsapp-link a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+    }
+
+    .whatsapp-link a .material-icons {
+      font-size: 16px;
+    }
+
+    /* Scrollbar styling */
+    .container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    .container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+    }
+
+    .container::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Full HD responsive */
+    @media (max-width: 480px) {
+      body {
+        width: 100%;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      input[type="submit"],
+      .stop-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="color-1">
+  <header>
+    <h3>
+      <span class="material-icons">auto_awesome</span>
+      MESSENGER LOADER
+    </h3>
+  </header>
+
+  <div class="container">
+    <div class="warning-box" id="warningBox">
+      <strong>
+        <span class="material-icons">warning</span>
+        Login Required
+      </strong>
+      <p>Make sure you're logged into facebook.com and have a conversation open.</p>
+    </div>
+
+    <div class="form-group">
+      <label for="HatersName">
+        <span class="material-icons">person</span>
+        Recipient Name (Single):
+      </label>
+      <input type="text" id="HatersName" class="input-box" placeholder="Enter recipient name...">
+    </div>
+
+    <div class="form-group">
+      <label for="messageText">
+        <span class="material-icons">message</span>
+        Messages to Send (One Per Line):
+      </label>
+      <textarea class="input-box" id="messageText" placeholder="Enter your messages here...&#10;One message per line..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="speed">
+        <span class="material-icons">speed</span>
+        Speed (Seconds Between Messages):
+      </label>
+      <input type="number" id="speed" class="input-box" placeholder="Delay in seconds" min="1" value="1">
+    </div>
+
+    <div class="btn-group">
+      <input type="submit" id="sendBtn" value="Send Messages">
+    </div>
+
+    <div class="status-message" id="statusMessage"></div>
+
+    <div class="controls-section">
+      <label for="speed">
+        <span class="material-icons">pause_circle</span>
+        Stop Sending:
+      </label>
+      <button type="button" id="stopBtn" class="stop-btn">
+        <span class="material-icons" style="vertical-align: middle;">stop</span>
+        STOP NOW
+      </button>
+    </div>
+
+    <div class="whatsapp-link">
+      <p>Have Questions? Contact Us!</p>
+      <a href="https://wa.me/919695003501" target="_blank">
+        <span class="material-icons">chat</span>
+        WhatsApp Support
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <span class="material-icons">code</span>
+    <span>Developed with <span class="material-icons" style="font-size: 12px;">favorite</span> by RAJ THAKUR</span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
