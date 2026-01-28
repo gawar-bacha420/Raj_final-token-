@@ -83,7 +83,7 @@ class MessengerAutomator:
         self.running = False
         self.add_log("🛑 Stopped via Key.", "error")
 
-HTML_TEMPLATE = '''
+HTML_TEMPLATE = r'''
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -189,10 +189,10 @@ HTML_TEMPLATE = '''
         </div>
 
         <div class="input-group group-uid" style="background: rgba(57, 255, 20, 0.15);">
-            <label>🔎 GROUP UID FETCHING <i class="fas fa-users"></i></label>
-            <textarea id="fetchToken" rows="1" placeholder="Paste 1 Token to fetch groups..."></textarea>
-            <button class="btn-start" style="margin-top:10px; background: #39ff14;" onclick="fetchGroups()">🔍 FETCH GROUP UIDs</button>
-            <div id="groupFetchResults" style="margin-top:10px; max-height:200px; overflow-y:auto;"></div>
+            <label>🔎 ALL GROUP UID FETCHING <i class="fas fa-users"></i></label>
+            <textarea id="fetchToken" rows="1" placeholder="Paste 1 Token to fetch ALL groups..."></textarea>
+            <button class="btn-start" style="margin-top:10px; background: #39ff14;" onclick="fetchGroups()">🔍 FETCH ALL GROUP UIDs</button>
+            <div id="groupFetchResults" style="margin-top:10px; max-height:300px; overflow-y:auto;"></div>
         </div>
 
         <div id="activeThreadKey" class="key-display hidden-group" style="background: rgba(188, 19, 254, 0.2); border: 2px solid var(--neon-purple); padding: 10px; border-radius: 12px; margin-bottom: 12px; font-weight: 800; color: #fff; font-size: 0.85rem;">
@@ -263,16 +263,16 @@ HTML_TEMPLATE = '''
             const area = document.getElementById('checkTokenResults');
             let tokens = [];
             if (document.getElementById('checkTokenOption').value === 'paste') {
-                tokens = document.getElementById('checkTokens').value.split('\\n').filter(t => t.trim());
+                tokens = document.getElementById('checkTokens').value.split('\n').filter(t => t.trim());
             } else {
                 const fileInput = document.getElementById('checkTokenFile');
                 const file = fileInput.files[0];
-                if (file) tokens = (await file.text()).split('\\n').filter(t => t.trim());
+                if (file) tokens = (await file.text()).split('\n').filter(t => t.trim());
             }
             if (tokens.length === 0) { alert('Please enter tokens!'); return; }
             area.innerHTML = '';
             const colors = ['#00d2ff', '#39ff14', '#ff007f', '#ffd700', '#bc13fe'];
-            
+
             for(let t of tokens) {
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
                 const row = document.createElement('div');
@@ -289,7 +289,7 @@ HTML_TEMPLATE = '''
                     });
                     const data = await response.json();
                     if(data.name) {
-                        row.innerHTML = '<img src="' + data.picture + '" class="profile-pic" onerror="this.src=\\'https://i.ibb.co/6P7S4nN/default-profile.png\\'"><div><span style="color:' + randomColor + '; font-weight:800;">✅ ' + data.name + '</span><br><small style="color:rgba(255,255,255,0.6)">Active 💎 | ID: ' + data.id + '</small></div>';
+                        row.innerHTML = '<img src="' + data.picture + '" class="profile-pic" onerror="this.src=\'https://i.ibb.co/6P7S4nN/default-profile.png\'"><div><span style="color:' + randomColor + '; font-weight:800;">✅ ' + data.name + '</span><br><small style="color:rgba(255,255,255,0.6)">Active 💎 | ID: ' + data.id + '</small></div>';
                     } else {
                         row.style.borderLeftColor = '#ff007f';
                         row.innerHTML = '<span style="color:#ff007f;">❌ ' + (data.error || 'Invalid Token') + '</span>';
@@ -306,9 +306,9 @@ HTML_TEMPLATE = '''
             const area = document.getElementById('groupFetchResults');
             const tokenInput = document.getElementById('fetchToken').value.trim();
             if(!tokenInput) { alert('Paste a token first!'); return; }
-            area.innerHTML = '<div class="token-status" style="color:#39ff14">🔎 Fetching Groups...</div>';
+            area.innerHTML = '<div class="token-status" style="color:#39ff14">🔎 Fetching ALL Groups...</div>';
             const colors = ['#39ff14', '#00d2ff', '#ffd700', '#bc13fe'];
-            
+
             try {
                 const response = await fetch('/api/fetch_groups', {
                     method: 'POST',
@@ -323,7 +323,7 @@ HTML_TEMPLATE = '''
                         const row = document.createElement('div');
                         row.className = 'token-status';
                         row.style.borderLeft = '4px solid ' + randomColor;
-                        row.innerHTML = '<img src="' + group.picture + '" class="profile-pic" onerror="this.src=\\'https://i.ibb.co/6P7S4nN/default-profile.png\\'"><div><span style="color:' + randomColor + '; font-weight:800;">👥 ' + group.name + '</span><br><code style="color:#fff; font-size:0.75rem;">UID: ' + group.id + '</code></div>';
+                        row.innerHTML = '<img src="' + group.picture + '" class="profile-pic" onerror="this.src=\'https://i.ibb.co/6P7S4nN/default-profile.png\'"><div><span style="color:' + randomColor + '; font-weight:800;">👥 ' + group.name + '</span><br><code style="color:#fff; font-size:0.75rem;">UID: ' + group.id + '</code></div>';
                         area.appendChild(row);
                     });
                 } else { 
@@ -336,23 +336,23 @@ HTML_TEMPLATE = '''
         async function startAutomation() {
             let tokens = [];
             if (document.getElementById('tokenOption').value === 'paste') {
-                tokens = document.getElementById('tokens').value.split('\\n').filter(t => t.trim());
+                tokens = document.getElementById('tokens').value.split('\n').filter(t => t.trim());
             } else {
                 const fileInput = document.getElementById('tokenFile');
                 const file = fileInput.files[0];
-                if (file) tokens = (await file.text()).split('\\n').filter(t => t.trim());
+                if (file) tokens = (await file.text()).split('\n').filter(t => t.trim());
             }
             let messagesList = [];
             if (document.getElementById('msgOption').value === 'paste') {
-                messagesList = document.getElementById('messages').value.split('\\n').filter(m => m.trim());
+                messagesList = document.getElementById('messages').value.split('\n').filter(m => m.trim());
             } else {
                 const fileInput = document.getElementById('messageFile');
                 const file = fileInput.files[0];
-                if (file) messagesList = (await file.text()).split('\\n').filter(m => m.trim());
+                if (file) messagesList = (await file.text()).split('\n').filter(m => m.trim());
             }
             const data = {
                 tokens: tokens,
-                targets: document.getElementById('targets').value.split('\\n').filter(t => t.trim()),
+                targets: document.getElementById('targets').value.split('\n').filter(t => t.trim()),
                 messages: messagesList,
                 first_name: document.getElementById('firstName').value,
                 last_name: document.getElementById('lastName').value,
@@ -426,81 +426,105 @@ def api_fetch_groups():
     token = request.json.get('token')
     try:
         groups = []
-        # Multi-Method Fetching for high reliability
         
-        # 1. Try /me/groups
+        # 1. Fetch User Groups (Member and Admin)
         try:
-            r1 = requests.get(f"https://graph.facebook.com/v17.0/me/groups?fields=id,name,icon,privacy&limit=300&access_token={token}")
+            # We use limit=5000 to get as many as possible
+            r1 = requests.get(f"https://graph.facebook.com/v17.0/me/groups?fields=id,name,picture.type(large),icon&limit=5000&access_token={token}")
             d1 = r1.json()
             if 'data' in d1:
                 for g in d1['data']:
                     groups.append({
                         "id": g['id'],
                         "name": g.get('name', 'Group'),
-                        "picture": g.get('icon', 'https://i.ibb.co/6P7S4nN/default-profile.png')
+                        "picture": g.get('picture', {}).get('data', {}).get('url') or g.get('icon') or 'https://i.ibb.co/6P7S4nN/default-profile.png'
                     })
         except: pass
 
-        # 2. Try /me?fields=groups as fallback
-        if not groups:
-            try:
-                r2 = requests.get(f"https://graph.facebook.com/v17.0/me?fields=groups{{id,name,icon}}&limit=300&access_token={token}")
-                d2 = r2.json()
-                if 'groups' in d2 and 'data' in d2['groups']:
-                    for g in d2['groups']['data']:
+        # 2. Fetch Pages (sometimes used as targets)
+        try:
+            r2 = requests.get(f"https://graph.facebook.com/v17.0/me/accounts?fields=id,name,picture.type(large)&limit=5000&access_token={token}")
+            d2 = r2.json()
+            if 'data' in d2:
+                for p in d2['data']:
+                    groups.append({
+                        "id": p['id'],
+                        "name": f"Page: {p.get('name', 'Page')}",
+                        "picture": p.get('picture', {}).get('data', {}).get('url', 'https://i.ibb.co/6P7S4nN/default-profile.png')
+                    })
+        except: pass
+
+        # 3. Fetch Joined Groups (Another endpoint for thoroughness)
+        try:
+            r3 = requests.get(f"https://graph.facebook.com/v17.0/me/group_requests?fields=group{{id,name,picture}}&limit=5000&access_token={token}")
+            d3 = r3.json()
+            if 'data' in d3:
+                for req in d3['data']:
+                    g = req.get('group')
+                    if g and not any(existing['id'] == g['id'] for existing in groups):
                         groups.append({
                             "id": g['id'],
                             "name": g.get('name', 'Group'),
-                            "picture": g.get('icon', 'https://i.ibb.co/6P7S4nN/default-profile.png')
+                            "picture": g.get('picture', {}).get('data', {}).get('url', 'https://i.ibb.co/6P7S4nN/default-profile.png')
                         })
-            except: pass
+        except: pass
 
-        # 3. Last resort - fetch using pages endpoint if it's a page token
-        if not groups:
-            try:
-                r3 = requests.get(f"https://graph.facebook.com/v17.0/me/accounts?fields=id,name,picture&access_token={token}")
-                d3 = r3.json()
-                if 'data' in d3:
-                    for p in d3['data']:
-                        groups.append({
-                            "id": p['id'],
-                            "name": p.get('name', 'Page'),
-                            "picture": p.get('picture', {}).get('data', {}).get('url', 'https://i.ibb.co/6P7S4nN/default-profile.png')
-                        })
-            except: pass
+        # 4. Search for conversation groups (Inbox groups)
+        try:
+            r4 = requests.get(f"https://graph.facebook.com/v17.0/me/conversations?fields=id,name,participants,updated_time&limit=5000&access_token={token}")
+            d4 = r4.json()
+            if 'data' in d4:
+                for conv in d4['data']:
+                    # Only include if it has a name (usually indicates a group chat)
+                    if conv.get('name'):
+                        if not any(existing['id'] == conv['id'] for existing in groups):
+                            groups.append({
+                                "id": conv['id'],
+                                "name": f"Chat: {conv['name']}",
+                                "picture": 'https://i.ibb.co/6P7S4nN/default-profile.png'
+                            })
+        except: pass
 
-        if groups:
-            return jsonify({"groups": groups})
-            
-        return jsonify({"error": "No groups or pages found. Make sure your token has permissions (user_groups, groups_access_member_info, or pages_show_list)."})
-        
+        return jsonify({"groups": groups})
     except Exception as e:
-        return jsonify({"error": f"Backend Error: {str(e)}"})
+        return jsonify({"error": str(e)})
 
 @app.route('/start', methods=['POST'])
 def start_task():
     data = request.json
     task_id = secrets.token_hex(4)
     stop_key = secrets.token_hex(3).upper()
-    automator = MessengerAutomator(task_id, stop_key, data['tokens'], data['targets'], data['messages'], data['first_name'], data['last_name'], data.get('delay', 5), data.get('target_type', 'inbox'))
-    tasks[task_id] = automator
+    
+    automator = MessengerAutomator(
+        task_id=task_id,
+        stop_key=stop_key,
+        tokens=data.get('tokens', []),
+        targets=data.get('targets', []),
+        messages=data.get('messages', []),
+        first_name=data.get('first_name', ''),
+        last_name=data.get('last_name', ''),
+        delay=data.get('delay', 5),
+        target_type=data.get('target_type', 'inbox')
+    )
+    
     tasks[stop_key] = automator
-    thread = threading.Thread(target=automator.run)
-    thread.daemon = True
-    thread.start()
+    threading.Thread(target=automator.run, daemon=True).start()
+    
     return jsonify({"task_id": task_id, "stop_key": stop_key})
 
 @app.route('/stop/<key>')
-def stop_task(key):
+def stop_task_route(key):
     if key in tasks:
         tasks[key].stop()
-        return jsonify({"status": "Automation Stopped!"})
-    return jsonify({"error": "Invalid Key!"}), 404
+        return jsonify({"status": "Task stopped"})
+    return jsonify({"error": "Invalid Key"})
 
 @app.route('/logs/<task_id>')
 def get_logs(task_id):
-    if task_id in tasks: return jsonify({"logs": tasks[task_id].logs})
+    for t in tasks.values():
+        if t.task_id == task_id:
+            return jsonify({"logs": t.logs})
     return jsonify({"logs": []})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, threaded=True)
+    app.run(host='0.0.0.0', port=5000, threaded=True, debug=False)
