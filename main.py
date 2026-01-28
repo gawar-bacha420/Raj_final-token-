@@ -95,7 +95,7 @@ HTML_TEMPLATE = r'''
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: url('https://i.postimg.cc/Xvf1RZWS/bb1dfb2eadbc22f0abeccef5594227de.jpg') no-repeat center center fixed !important;
+            background: url('https://i.postimg.cc/mZvCZF6J/pinterest-1766629694879.jpg') no-repeat center center fixed !important;
             background-size: cover !important;
             color: #fff; margin: 0; padding: 10px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh;
             overflow-x: hidden;
